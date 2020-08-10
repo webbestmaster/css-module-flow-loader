@@ -1,11 +1,12 @@
 // @flow
 
-import readDirRecursive from 'recursive-readdir';
-
-import nodeSass, {type NodeSassRenderCallbackResultType} from 'node-sass';
+/* :: import {type NodeSassRenderCallbackResultType} from 'node-sass'; */
 
 const path = require('path');
 const fileSystem = require('fs');
+
+const readDirRecursive = require('recursive-readdir');
+const nodeSass = require('node-sass');
 
 const fileExtensionList = new Set(['.css', '.scss', '.sass']);
 const excludeFolderList = new Set(['node_modules', '.git']);

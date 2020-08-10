@@ -7,8 +7,17 @@ declare module 'recursive-readdir' {
 
     declare type ReadDirRecursiveExcludeType = (pathToFile: string, stats: FileStatsType) => boolean;
 
-    declare export default function readDirRecursive(
+    /*
+        declare export default function readDirRecursive(
+            pathToFolder: string,
+            exclude: Array<ReadDirRecursiveExcludeType>,
+        ): Promise<Array<string>>;
+    */
+
+    declare function readDirRecursive(
         pathToFolder: string,
         exclude: Array<ReadDirRecursiveExcludeType>,
     ): Promise<Array<string>>;
+
+    declare module.exports: typeof readDirRecursive;
 }

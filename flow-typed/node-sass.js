@@ -23,5 +23,7 @@ declare module 'node-sass' {
 
     declare var nodeSass: NodeSassType;
 
-    declare export default typeof nodeSass;
+    declare module.exports: typeof nodeSass;
+
+    // declare export default typeof nodeSass;
 }

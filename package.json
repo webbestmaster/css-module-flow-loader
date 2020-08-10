@@ -1,6 +1,6 @@
 {
   "name": "css-module-flow-loader",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "css module flow loader",
   "keywords": [
     "css",
@@ -31,7 +31,8 @@
     "__start-demo": "cross-env BUILD_TYPE=site webpack-dev-server --progress --no-inline",
     "__start-demo:hot": "cross-env BUILD_TYPE=site webpack-dev-server --progress --hot",
     "__build-demo": "cross-env NODE_ENV=production BUILD_TYPE=site webpack --mode=production --progress",
-    "build": "cross-env NODE_ENV=production BUILD_TYPE=lib webpack --mode=production --progress",
+    "__build": "cross-env NODE_ENV=production BUILD_TYPE=lib webpack --mode=production --progress",
+    "build": "flow-remove-types src/css-module-flow-loader.js > dist/index.js",
     "remove-extra": "rm -rf ./coverage && rm -rf ./.nyc_output",
     "check": "npm run remove-extra; npm run eslint; npm run stylelint; npm run flow;",
     "check:fix": "npm run remove-extra; npm run prettier; npm run eslint:fix; npm run stylelint:fix; npm run flow;",
@@ -100,6 +101,7 @@
     "eslint-plugin-unicorn": "^21.0.0",
     "flow-bin": "^0.131.0",
     "flow-coverage-report": "^0.7.0",
+    "flow-remove-types": "^2.131.0",
     "flow-runtime": "^0.17.0",
     "flow-typed": "^3.2.1",
     "html-webpack-plugin": "^4.3.0",

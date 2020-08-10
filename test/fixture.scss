@@ -1,0 +1,17 @@
+/* stylelint-disable block-no-empty */
+
+.usual_class {
+    display: block;
+
+    .inner_class {
+        display: block;
+    }
+
+    .inner_empty_class {
+
+    }
+}
+
+.empty_class {
+
+}

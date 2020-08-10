@@ -1,3 +1,7 @@
+//
+
+/* :: import {                                     } from 'node-sass'; */
+
 const path = require('path');
 const fileSystem = require('fs');
 
@@ -50,7 +54,7 @@ function getFlowTypeFileContent(allRawClassNameList) {
 }
 
 function renderNodeSassCallback(sassRenderError, result) {
-    if (sassRenderError) {
+    if (sassRenderError || !result) {
         throw sassRenderError;
     }
 
