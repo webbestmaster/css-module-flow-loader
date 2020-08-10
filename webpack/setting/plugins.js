@@ -8,7 +8,7 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 const {UnusedFilesWebpackPlugin} = require('unused-files-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const {isProduction, isDevelopment, isBuildLib, isBuildSite} = require('./../config');
+const {isProduction, isDevelopment} = require('./../config');
 
 // const date = new Date();
 
@@ -20,20 +20,6 @@ const definePluginParameters = {
     // PROJECT_ID: JSON.stringify('my-best-project')
     // IS_DEVELOPMENT: JSON.stringify(IS_DEVELOPMENT)
 };
-
-const staticFilesLibraryList = [
-    {
-        from: '@types/index.d.ts',
-        to: './index.d.ts',
-    },
-];
-
-const staticFilesSiteList = [
-    {
-        from: './www/favicon.ico',
-        to: './favicon.ico',
-    },
-];
 
 const pluginList = [
     new CircularDependencyPlugin({
@@ -57,32 +43,5 @@ const pluginList = [
     }),
     // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
 ];
-
-if (isBuildLib) {
-    pluginList.push(
-        new CopyWebpackPlugin({
-            patterns: staticFilesLibraryList,
-        })
-    );
-}
-
-if (isBuildSite) {
-    pluginList.push(
-        new HtmlWebpackPlugin({
-            template: './www/index.html',
-            minify: {
-                collapseWhitespace: isProduction,
-                removeComments: isProduction,
-                minifyCSS: isProduction,
-                minifyJS: isProduction,
-            },
-            hash: true,
-            filename: './index.html',
-        }),
-        new CopyWebpackPlugin({
-            patterns: staticFilesSiteList,
-        })
-    );
-}
 
 module.exports.plugins = pluginList;

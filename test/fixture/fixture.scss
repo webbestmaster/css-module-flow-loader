@@ -1,9 +1,13 @@
 /* stylelint-disable block-no-empty */
 
+.inner_usual_class {
+    display: block;
+}
+
 .usual_class {
     display: block;
 
-    .inner_class {
+    .inner_usual_class {
         display: block;
     }
 

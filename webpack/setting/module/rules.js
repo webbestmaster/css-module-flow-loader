@@ -1,3 +1,5 @@
+const path = require('path');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const {isProduction, isDevelopment, fileRegExp, pathToLoadedFileFolder} = require('./../../config');
@@ -61,7 +63,7 @@ module.exports.rules = [
         test: /\.scss$/,
         use: [
             cssLoader,
-            'css-modules-flow-types-loader',
+            path.resolve('./dist/index.js'),
             {
                 loader: 'css-loader',
                 options: {
@@ -80,7 +82,7 @@ module.exports.rules = [
         test: /\.css$/,
         use: [
             cssLoader,
-            'css-modules-flow-types-loader',
+            path.resolve('./dist/index.js'),
             {
                 loader: 'css-loader',
                 options: {

@@ -9,12 +9,10 @@ const {
     pathToDist,
     cwd,
     isBuildServer,
-    isBuildLib,
-    isBuildSite,
 } = require('./webpack/config');
 
 const webpackConfig = {
-    entry: isBuildLib ? ['./src/css-module-flow-loader.js'] : ['./www/root.scss', './www/root.js'],
+    entry: './test/fixture/fixture.scss',
     output: {
         path: path.join(cwd, pathToDist),
         // publicPath: `${isDevelopment || isBuildServer ? '' : pathToStaticFileFolder}/`,
@@ -30,10 +28,6 @@ const webpackConfig = {
     plugins: require('./webpack/setting/plugins').plugins,
     devServer: require('./webpack/setting/dev-server').devServer,
 };
-
-if (isProduction && isBuildLib) {
-    webpackConfig.output.libraryTarget = 'commonjs2';
-}
 
 // webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 
