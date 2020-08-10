@@ -1,5 +1,10 @@
 # css-module-flow-loader
 
+[![Build Status](https://travis-ci.org/webbestmaster/css-module-flow-loader.svg?branch=master)](https://travis-ci.org/github/webbestmaster/css-module-flow-loader)
+[![GitHub license](https://img.shields.io/npm/l/css-module-flow-loader)](https://github.com/webbestmaster/css-module-flow-loader/blob/master/license)
+[![npm version](https://img.shields.io/npm/v/css-module-flow-loader.svg?style=flat)](https://www.npmjs.com/package/css-module-flow-loader)
+[![GitHub stars](https://img.shields.io/github/stars/webbestmaster/css-module-flow-loader?style=social&maxAge=2592000)](https://github.com/webbestmaster/css-module-flow-loader/)
+
 Webpack loader for creating [Flow](https://flow.org/) type definitions based on [CSS Modules](https://github.com/css-modules/css-modules) files.
 
 This gives you:
