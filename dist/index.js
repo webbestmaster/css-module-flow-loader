@@ -1,20 +1,13 @@
-// @flow
-
-import readDirRecursive from 'recursive-readdir';
-
-import nodeSass, {type NodeSassRenderCallbackResultType} from 'node-sass';
-
 const path = require('path');
 const fileSystem = require('fs');
+
+const readDirRecursive = require('recursive-readdir');
+const nodeSass = require('node-sass');
 
 const fileExtensionList = new Set(['.css', '.scss', '.sass']);
 const excludeFolderList = new Set(['node_modules', '.git']);
 
-type FileStatsType = {
-    isDirectory: () => boolean,
-};
-
-function fileExclude(pathToFile: string, stats: FileStatsType): boolean {
+function fileExclude(pathToFile, stats) {
     if (stats.isDirectory()) {
         return false;
     }
@@ -42,13 +35,13 @@ ${classListReplaceValue}
 |};
 `;
 
-function rawClassNameToFlowProperty(rawClassName: string): string {
+function rawClassNameToFlowProperty(rawClassName) {
     const className = rawClassName.replace(/[\s.:{]/g, '');
 
     return `    +'${className}': string;`;
 }
 
-function getFlowTypeFileContent(allRawClassNameList: Array<string>): string {
+function getFlowTypeFileContent(allRawClassNameList) {
     const allClassNameList = [...new Set(allRawClassNameList)].map(rawClassNameToFlowProperty);
 
     const uniqClassNameList = [...new Set(allClassNameList)];
@@ -56,8 +49,8 @@ function getFlowTypeFileContent(allRawClassNameList: Array<string>): string {
     return templateWrapper.replace(classListReplaceValue, uniqClassNameList.join('\n'));
 }
 
-function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRenderCallbackResultType) {
-    if (sassRenderError || !result) {
+function renderNodeSassCallback(sassRenderError, result) {
+    if (sassRenderError) {
         throw sassRenderError;
     }
 
@@ -69,7 +62,7 @@ function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRender
 
     const filePathFlowTyped = result.stats.entry + '.flow';
 
-    function fileWriteCallback(fileWriteError: ?Error) {
+    function fileWriteCallback(fileWriteError) {
         if (fileWriteError) {
             throw fileWriteError;
         }
@@ -80,11 +73,11 @@ function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRender
     fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(allRawClassNameList), fileWriteCallback);
 }
 
-function writeFlowType(pathToFile: string) {
+function writeFlowType(pathToFile) {
     nodeSass.render({file: pathToFile}, renderNodeSassCallback);
 }
 
-module.exports = function cssModuleFlowLoader(source: string): string {
+module.exports = function cssModuleFlowLoader(source) {
     const rootPathFolder = this.rootContext;
 
     (async () => {
