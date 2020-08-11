@@ -53,7 +53,7 @@ $ npm i -D css-module-flow-loader
 
 ### Support for other file extensions
 
-To support `.scss`, `.sass`, `.scss.module` or similar files extensions you need to update your `.flowconfig` file with the following section:
+To support `.scss`, `.sass` or similar files extensions you need to update your `.flowconfig` file with the following section:
 
 ```
 [options]
@@ -64,7 +64,6 @@ module.file_ext=.json
 module.file_ext=.css
 module.file_ext=.scss
 module.file_ext=.sass
-module.file_ext=.scss.module
 // other files used by flow
 ```
 
