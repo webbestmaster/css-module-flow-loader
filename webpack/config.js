@@ -15,8 +15,6 @@ module.exports.isProduction = nodeEnvironment === modeProductionName;
 
 module.exports.cwd = process.cwd();
 
-module.exports.fileRegExp = /\.(webp|png|jpg|jpeg|gif|svg|otf|ttf|woff2?)$/;
-
 module.exports.pathToDist = '/dist-test';
 
 module.exports.pathToStaticFileFolder = '/static';

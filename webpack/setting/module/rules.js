@@ -2,7 +2,7 @@ const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const {isProduction, isDevelopment, fileRegExp, pathToLoadedFileFolder} = require('./../../config');
+const {isProduction, isDevelopment, pathToLoadedFileFolder} = require('./../../config');
 
 const styleLoader = {
     loader: 'style-loader',
@@ -21,43 +21,6 @@ module.exports.rules = [
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-    },
-    {
-        test: fileRegExp,
-        use: [
-            {
-                loader: 'image-webpack-loader',
-                options: {
-                    mozjpeg: {
-                        quality: 80, // 0..100
-                        progressive: true,
-                    },
-                    // optipng: {
-                    //     optimizationLevel: 7 // 0..7
-                    // },
-                    // pngquant: {
-                    //     quality: '60-80', // 0..100
-                    //     speed: 1 // 1..10
-                    // },
-                    svgo: {}, // no set up needed
-                    gifsicle: {
-                        optimizationLevel: 3, // 1..3
-                    },
-                    webp: {
-                        quality: 75,
-                        method: 6,
-                    },
-                },
-            },
-            {
-                loader: 'base64-inline-loader',
-                query: {
-                    limit: 1,
-                    // limit: isProduction ? 1 : 1, // 1k bytes for production
-                    name: pathToLoadedFileFolder.replace(/^\//, '') + '/[name]-[md5:hash:hex:7].[ext]',
-                },
-            },
-        ],
     },
     {
         test: /\.scss$/,
@@ -94,9 +57,5 @@ module.exports.rules = [
             },
             postCssLoader,
         ],
-    },
-    {
-        test: /\.(txt|md)$/i,
-        use: 'raw-loader',
-    },
+    }
 ];

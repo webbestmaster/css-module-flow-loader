@@ -1,7 +1,7 @@
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-const {isDevelopment, fileRegExp} = require('./../config');
+const {isDevelopment} = require('./../config');
 
 module.exports.optimization = isDevelopment
     ? {
@@ -20,12 +20,6 @@ module.exports.optimization = isDevelopment
                     priority: -20,
                     reuseExistingChunk: true,
                     test: /\.s?css$/,
-                },
-                asset: {
-                    chunks: 'initial',
-                    name: 'asset',
-                    priority: -15,
-                    test: fileRegExp,
                 },
                 vendor: {
                     chunks: 'initial',
