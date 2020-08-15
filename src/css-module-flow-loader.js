@@ -16,10 +16,6 @@ type FileStatsType = {
 };
 
 function fileExclude(pathToFile: string, stats: FileStatsType): boolean {
-    if (stats.isDirectory()) {
-        return false;
-    }
-
     const filePathChunkList = new Set(pathToFile.split(path.sep));
 
     // eslint-disable-next-line no-loops/no-loops
@@ -27,6 +23,10 @@ function fileExclude(pathToFile: string, stats: FileStatsType): boolean {
         if (filePathChunkList.has(excludeFolder)) {
             return true;
         }
+    }
+
+    if (stats.isDirectory()) {
+        return false;
     }
 
     const extname = path.extname(pathToFile);

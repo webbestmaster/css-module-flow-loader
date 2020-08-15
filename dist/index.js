@@ -12,10 +12,6 @@ const fileExtensionList = new Set(['.css', '.scss', '.sass']);
 const excludeFolderList = new Set(['node_modules', '.git']);
 
 function fileExclude(pathToFile, stats) {
-    if (stats.isDirectory()) {
-        return false;
-    }
-
     const filePathChunkList = new Set(pathToFile.split(path.sep));
 
     // eslint-disable-next-line no-loops/no-loops
@@ -23,6 +19,10 @@ function fileExclude(pathToFile, stats) {
         if (filePathChunkList.has(excludeFolder)) {
             return true;
         }
+    }
+
+    if (stats.isDirectory()) {
+        return false;
     }
 
     const extname = path.extname(pathToFile);
