@@ -44,17 +44,20 @@ ${classListReplaceValue}
 `;
 
 function rawClassNameToFlowProperty(rawClassName: string): string {
-    const className = rawClassName.replace(/[\s.:{]/g, '');
-
-    return `    +'${className}': string;`;
+    return `    +'${rawClassName.slice(1)}': string;`;
 }
 
-function getFlowTypeFileContent(allRawClassNameList: Array<string>): string {
-    const allClassNameList = [...new Set(allRawClassNameList)].map(rawClassNameToFlowProperty);
+function getFlowTypeFileContent(classNameList: Array<string>): string {
+    const allClassNameList = classNameList.map(rawClassNameToFlowProperty);
 
-    const uniqClassNameList = [...new Set(allClassNameList)];
+    return templateWrapper.replace(classListReplaceValue, allClassNameList.join('\n'));
+}
 
-    return templateWrapper.replace(classListReplaceValue, uniqClassNameList.join('\n'));
+const removeCssCommentRegExpGlobal = /\/\*[\S\s]*?\*\//g;
+const removeCssRuleRegExpGlobal = /{[\S\s]*?}/g;
+
+function getCleanCssText(cssText: string): string {
+    return cssText.replace(removeCssCommentRegExpGlobal, '').replace(removeCssRuleRegExpGlobal, '');
 }
 
 function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRenderCallbackResultType) {
@@ -62,11 +65,9 @@ function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRender
         throw sassRenderError;
     }
 
-    const allRawClassNameList = result.css.toString().match(/\.([_a-z]+[\w-_]*)[\s#,.:>{]*/gim);
+    const cleanCssText = getCleanCssText(result.css.toString());
 
-    if (!allRawClassNameList) {
-        return;
-    }
+    const classNameList = [...new Set(cleanCssText.match(/\.[_a-z]+[\w-_]*/g) || [])].sort();
 
     const filePathFlowTyped = result.stats.entry + '.flow';
 
@@ -78,7 +79,7 @@ function renderNodeSassCallback(sassRenderError: ?Error, result: ?NodeSassRender
         console.log('[css-module-flow-loader]:', filePathFlowTyped, 'has been updated.');
     }
 
-    fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(allRawClassNameList), fileWriteCallback);
+    fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(classNameList), fileWriteCallback);
 }
 
 function writeFlowType(pathToFile: string) {

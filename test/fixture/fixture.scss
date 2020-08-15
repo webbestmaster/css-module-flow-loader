@@ -1,12 +1,14 @@
-/* stylelint-disable block-no-empty */
+/* stylelint-disable block-no-empty, selector-max-id, no-descending-specificity */
 
-.inner_usual_class {
-    display: block;
-}
-
+#my-id,
 .usual_class {
     display: block;
 
+    .inner_usual_class {
+        display: block;
+    }
+
+    &.connected_class,
     .inner_usual_class {
         display: block;
     }

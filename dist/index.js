@@ -1,4 +1,4 @@
-//      
+//
 
 /* :: import {                                     } from 'node-sass'; */
 
@@ -11,11 +11,7 @@ const nodeSass = require('node-sass');
 const fileExtensionList = new Set(['.css', '.scss', '.sass']);
 const excludeFolderList = new Set(['node_modules', '.git']);
 
-                      
-                               
-  
-
-function fileExclude(pathToFile        , stats               )          {
+function fileExclude(pathToFile, stats) {
     if (stats.isDirectory()) {
         return false;
     }
@@ -43,34 +39,35 @@ ${classListReplaceValue}
 |};
 `;
 
-function rawClassNameToFlowProperty(rawClassName        )         {
-    const className = rawClassName.replace(/[\s.:{]/g, '');
-
-    return `    +'${className}': string;`;
+function rawClassNameToFlowProperty(rawClassName) {
+    return `    +'${rawClassName.slice(1)}': string;`;
 }
 
-function getFlowTypeFileContent(allRawClassNameList               )         {
-    const allClassNameList = [...new Set(allRawClassNameList)].map(rawClassNameToFlowProperty);
+function getFlowTypeFileContent(classNameList) {
+    const allClassNameList = classNameList.map(rawClassNameToFlowProperty);
 
-    const uniqClassNameList = [...new Set(allClassNameList)];
-
-    return templateWrapper.replace(classListReplaceValue, uniqClassNameList.join('\n'));
+    return templateWrapper.replace(classListReplaceValue, allClassNameList.join('\n'));
 }
 
-function renderNodeSassCallback(sassRenderError        , result                                   ) {
+const removeCssCommentRegExpGlobal = /\/\*[\S\s]*?\*\//g;
+const removeCssRuleRegExpGlobal = /{[\S\s]*?}/g;
+
+function getCleanCssText(cssText) {
+    return cssText.replace(removeCssCommentRegExpGlobal, '').replace(removeCssRuleRegExpGlobal, '');
+}
+
+function renderNodeSassCallback(sassRenderError, result) {
     if (sassRenderError || !result) {
         throw sassRenderError;
     }
 
-    const allRawClassNameList = result.css.toString().match(/\.([_a-z]+[\w-_]*)[\s#,.:>{]*/gim);
+    const cleanCssText = getCleanCssText(result.css.toString());
 
-    if (!allRawClassNameList) {
-        return;
-    }
+    const classNameList = [...new Set(cleanCssText.match(/\.[_a-z]+[\w-_]*/g) || [])].sort();
 
     const filePathFlowTyped = result.stats.entry + '.flow';
 
-    function fileWriteCallback(fileWriteError        ) {
+    function fileWriteCallback(fileWriteError) {
         if (fileWriteError) {
             throw fileWriteError;
         }
@@ -78,14 +75,14 @@ function renderNodeSassCallback(sassRenderError        , result                 
         console.log('[css-module-flow-loader]:', filePathFlowTyped, 'has been updated.');
     }
 
-    fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(allRawClassNameList), fileWriteCallback);
+    fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(classNameList), fileWriteCallback);
 }
 
-function writeFlowType(pathToFile        ) {
+function writeFlowType(pathToFile) {
     nodeSass.render({file: pathToFile}, renderNodeSassCallback);
 }
 
-module.exports = function cssModuleFlowLoader(source        )         {
+module.exports = function cssModuleFlowLoader(source) {
     const rootPathFolder = this.rootContext;
 
     (async () => {

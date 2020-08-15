@@ -57,5 +57,5 @@ module.exports.rules = [
             },
             postCssLoader,
         ],
-    }
+    },
 ];
