@@ -1,6 +1,6 @@
 {
   "name": "css-module-flow-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "css module flow loader",
   "keywords": [
     "css",
@@ -28,7 +28,7 @@
     "npm": ">=5.0.0"
   },
   "scripts": {
-    "build": "rm -rf ./dist/* && flow-remove-types src/css-module-flow-loader.js > ./dist/index.js",
+    "build": "rm -rf ./dist/* && flow-remove-types src/css-module-flow-loader.js > ./dist/index.js && npm run check:fix",
     "remove-extra": "rm -rf ./coverage && rm -rf ./.nyc_output",
     "check": "npm run remove-extra; npm run eslint; npm run stylelint; npm run flow;",
     "check:fix": "npm run remove-extra; npm run prettier; npm run eslint:fix; npm run stylelint:fix; npm run flow;",

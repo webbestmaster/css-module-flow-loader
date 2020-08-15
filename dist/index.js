@@ -65,17 +65,13 @@ function renderNodeSassCallback(sassRenderError, result) {
 
     const classNameList = [...new Set(cleanCssText.match(/\.[_a-z]+[\w-_]*/g) || [])].sort();
 
-    const filePathFlowTyped = result.stats.entry + '.flow';
-
     function fileWriteCallback(fileWriteError) {
         if (fileWriteError) {
             throw fileWriteError;
         }
-
-        console.log('[css-module-flow-loader]:', filePathFlowTyped, 'has been updated.');
     }
 
-    fileSystem.writeFile(filePathFlowTyped, getFlowTypeFileContent(classNameList), fileWriteCallback);
+    fileSystem.writeFile(result.stats.entry + '.flow', getFlowTypeFileContent(classNameList), fileWriteCallback);
 }
 
 function writeFlowType(pathToFile) {
