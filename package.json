@@ -1,6 +1,6 @@
 {
   "name": "css-module-flow-loader",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "css module flow loader",
   "keywords": [
     "css",
@@ -45,9 +45,7 @@
     "zip": "zip -9 --exclude=*node_modules* --exclude=*.git* -r my-project_`git symbolic-ref --short HEAD`-`date +%Y-%m-%d--%H-%M-%S` ./",
     "pre-commit-hook": "npm run eslint && npm run stylelint && npm run flow",
     "build-test": "rm -f ./test/fixture/fixture.scss.flow && cross-env webpack --mode=development --progress",
-    "test": "npm run build && npm run build-test && babel-node node_modules/.bin/_mocha ./test/",
-    "__test-coverage": "nyc --reporter=html --reporter=text --reporter=lcov babel-node node_modules/.bin/_mocha ./test/",
-    "__coveralls": "npm run test-coverage && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run build && npm run build-test && babel-node node_modules/.bin/_mocha ./test/"
   },
   "dependencies": {
     "node-sass": "^4.14.1",
