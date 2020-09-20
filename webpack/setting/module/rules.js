@@ -9,11 +9,6 @@ const styleLoader = {
     options: {attributes: {'class': 'my-css-module'}},
 };
 
-const postCssLoader = {
-    loader: 'postcss-loader',
-    options: {sourceMap: true},
-};
-
 const cssLoader = isProduction ? MiniCssExtractPlugin.loader : styleLoader;
 
 module.exports.rules = [
@@ -37,7 +32,6 @@ module.exports.rules = [
                     },
                 },
             },
-            postCssLoader,
             {loader: 'sass-loader', options: {sourceMap: isDevelopment}},
         ],
     },
@@ -55,7 +49,6 @@ module.exports.rules = [
                     },
                 },
             },
-            postCssLoader,
         ],
     },
 ];
